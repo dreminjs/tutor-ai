@@ -1,0 +1,25 @@
+{
+  "name": "tutor-ai",
+  "private": true,
+  "scripts": {
+    "dev": "lerna run dev --parallel",
+    "build": "lerna run build",
+    "client:dev": "lerna run dev --scope=client",
+    "api:dev": "lerna run start:dev --scope=api",
+    "install:all": "npm install",
+    "clean": "lerna clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "lerna": "^7.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "postcss": "^8.5.6",
+    "react-markdown": "^10.1.0",
+    "react-router": "^7.10.1",
+    "tailwindcss": "^4.1.18"
+  }
+}
