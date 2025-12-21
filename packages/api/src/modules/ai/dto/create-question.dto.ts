@@ -1,3 +1,4 @@
+import { createZodDto } from 'nestjs-zod';
 import z from 'zod';
 
 export const createQuestionDtoSchema = z.object({
@@ -7,3 +8,5 @@ export const createQuestionDtoSchema = z.object({
 });
 
 export type TCreateQuestionDto = z.infer<typeof createQuestionDtoSchema>;
+
+export class СreateQuestioDto extends createZodDto(createQuestionDtoSchema) {}

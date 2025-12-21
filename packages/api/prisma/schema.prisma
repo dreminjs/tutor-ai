@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PhysicTask {
+  id                  String               @id @default(uuid())
+  content             String
+  physicTaskSolutions PhysicTaskSolution[]
+
+  physicSection   PhysicSection @relation(fields: [physicSectionId], references: [id])
+  physicSectionId String
+}
+
+model PhysicTaskSolution {
+  id           String     @id @default(uuid())
+  content      String
+  physicTask   PhysicTask @relation(fields: [physicTaskId], references: [id])
+  physicTaskId String
+}
+
+model PhysicSection {
+  id          String       @id @default(uuid())
+  title       String       @unique
+  physicTasks PhysicTask[]
+}
