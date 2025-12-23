@@ -6,24 +6,32 @@ datasource db {
   provider = "postgresql"
 }
 
-model PhysicTask {
-  id                  String               @id @default(uuid())
-  content             String
-  physicTaskSolutions PhysicTaskSolution[]
+model Task {
+  id        String     @id @default(uuid())
+  content   String
+  solutions Solution[]
 
-  physicSection   PhysicSection @relation(fields: [physicSectionId], references: [id])
-  physicSectionId String
+  section   Section @relation(fields: [sectionId], references: [id])
+  sectionId String
 }
 
-model PhysicTaskSolution {
-  id           String     @id @default(uuid())
-  content      String
-  physicTask   PhysicTask @relation(fields: [physicTaskId], references: [id])
-  physicTaskId String
+model Solution {
+  id      String @id @default(uuid())
+  content String
+  task    Task   @relation(fields: [taskId], references: [id])
+  taskId  String
 }
 
-model PhysicSection {
-  id          String       @id @default(uuid())
-  title       String       @unique
-  physicTasks PhysicTask[]
+model Section {
+  id        String   @id @default(uuid())
+  title     String   @unique
+  tasks     Task[]
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId String?
+}
+
+model Subject {
+  id       String    @id @default(uuid())
+  title    String    @unique
+  sections Section[]
 }

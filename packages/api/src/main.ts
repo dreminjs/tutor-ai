@@ -4,9 +4,14 @@ import { Logger } from '@nestjs/common';
 import { AppModule } from './modules/app/app.module';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
+import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
 
   app.enableCors({ origin: 'http://localhost:5173', credentials: true });
 

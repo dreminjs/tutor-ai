@@ -29,6 +29,7 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@tutor-ai/shared-types": "*",
+    "fastify": "^5.6.2",
     "groq-sdk": "^0.37.0",
     "nestjs-zod": "^5.0.1",
     "pg": "^8.16.3",
