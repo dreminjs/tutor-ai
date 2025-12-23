@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./ai.types"), exports);
 __exportStar(require("./ai.dto"), exports);
 __exportStar(require("./api.types"), exports);
+__exportStar(require("./section.types"), exports);

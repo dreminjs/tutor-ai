@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Section, Prisma } from '@prisma/client';
-import type { IPaginationQueryParameters } from '@tutor-ai/shared-types';
+import { FindManySectionsQuery } from './dto/find.dto';
 
 @Injectable()
 export class SectionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findMany(dto: IPaginationQueryParameters): Promise<Section[]> {
+  async findMany(dto: FindManySectionsQuery): Promise<Section[]> {
     return await this.prisma.section.findMany({
       skip: dto.skip,
       take: dto.take,
+      where: {
+        ...(dto.subjectId && { subjectId: dto.subjectId }),
+      },
     });
   }
 

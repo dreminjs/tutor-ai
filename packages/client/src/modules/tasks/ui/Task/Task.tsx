@@ -1,4 +1,4 @@
-import { MarkdownBlock } from "../../../components/MarkdownBlock";
+import { MarkdownBlock } from "@/components/MarkdownBlock";
 
 export const Task = () => {
   return (

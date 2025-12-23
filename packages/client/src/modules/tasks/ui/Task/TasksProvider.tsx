@@ -1,6 +1,6 @@
 import { Provider } from "jotai"
-import { questionStore } from "../model/store/question.store"
 import type { FC, PropsWithChildren } from "react"
+import { questionStore } from "../../model/store/question.store"
 
 
 export const TaskProvider: FC<PropsWithChildren> = ({ children }) => {

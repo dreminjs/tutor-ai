@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { MarkdownBlock } from "../../../../components/MarkdownBlock";
+import { MarkdownBlock } from "../../../../../components/MarkdownBlock";
 import { QuestionButton } from "./QuestionButton";
 
 interface IProps {

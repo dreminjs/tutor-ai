@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { SolutionModule } from '../solution/solution.module';
 import { TasksModule } from '../tasks/tasks.module';
 import { SectionsModule } from '../sections/sections.module';
+import { SubjectsModule } from '../subjects/subjects.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SectionsModule } from '../sections/sections.module';
     SolutionModule,
     TasksModule,
     SectionsModule,
+    SubjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

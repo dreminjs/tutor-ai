@@ -1,6 +1,6 @@
 import { CircleQuestionMark } from "lucide-react";
 import type { FC } from "react";
-import { useMakeQuestion } from "../../api/queries";
+import { useMakeQuestion } from "../../../api/queries";
 
 interface IProps {
   content: string;

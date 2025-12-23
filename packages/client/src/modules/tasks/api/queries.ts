@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { makeQuestion } from "./services";
 import { currentExplanationAtom } from "../model/store/question.store";
 import { useSetAtom } from "jotai";
@@ -14,3 +14,13 @@ export const useMakeQuestion = () => {
     },
   });
 };
+
+
+
+export const useGetTasks = () => {
+
+
+  return useQuery({
+    
+  })
+}

@@ -5,8 +5,8 @@ import { AppModule } from './modules/app/app.module';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
+import { ZodValidationPipe } from 'nestjs-zod';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
-
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -14,6 +14,8 @@ async function bootstrap() {
   );
 
   app.enableCors({ origin: 'http://localhost:5173', credentials: true });
+
+  app.useGlobalPipes(new ZodValidationPipe());
 
   app.useGlobalInterceptors(new ResponseInterceptor());
 

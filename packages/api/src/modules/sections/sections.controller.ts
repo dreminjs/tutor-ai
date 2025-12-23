@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { SectionsService } from './sections.service';
-import type {
-  IPaginationQueryParameters,
-  IWithPagination,
-} from '@tutor-ai/shared-types';
 import { Section } from '@prisma/client';
 import { CreateSectionDto } from './dto/create.dto';
+import { FindManySectionsQuery } from './dto/find.dto';
+import { IWithPagination } from '@tutor-ai/shared-types';
 
 @Controller('sections')
 export class SectionsController {
@@ -13,7 +11,7 @@ export class SectionsController {
 
   @Get()
   public async findMany(
-    @Query() query: IPaginationQueryParameters,
+    @Query() query: FindManySectionsQuery,
   ): Promise<IWithPagination<Section>> {
     const countQuery = this.sectionsService.count();
 

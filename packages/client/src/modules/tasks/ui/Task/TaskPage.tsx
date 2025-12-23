@@ -1,7 +1,7 @@
 import { Solution } from "./Solution";
-import { Task } from "./Task";
 import { Explanation } from "./Explanation/Explantion";
-import { TaskProvider } from "./TaskProvider";
+import { TaskProvider } from "./TasksProvider";
+import { Task } from "./Task";
 
 export const TaskPage = () => {
   return (

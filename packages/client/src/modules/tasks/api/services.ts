@@ -9,3 +9,9 @@ export const makeQuestion = async (dto: sharedTypes.TCreateQuestionDto) => {
     })
   ).data;
 };
+
+
+export const findMany = () => {
+
+  // return instance.get(`${API_KEYS.}`)
+}
