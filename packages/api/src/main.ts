@@ -6,7 +6,10 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { ZodValidationPipe } from 'nestjs-zod';
+import multipart from '@fastify/multipart';
+
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -14,6 +17,10 @@ async function bootstrap() {
   );
 
   app.enableCors({ origin: 'http://localhost:5173', credentials: true });
+
+  await app.register(multipart, {
+    limits: { fileSize: 5 * 1024 * 1024 },
+  });
 
   app.useGlobalPipes(new ZodValidationPipe());
 
@@ -34,4 +41,5 @@ async function bootstrap() {
     Logger.log('app is using 3000 port'),
   );
 }
+
 bootstrap();

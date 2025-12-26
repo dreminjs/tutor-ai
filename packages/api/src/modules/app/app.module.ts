@@ -7,6 +7,7 @@ import { SolutionModule } from '../solution/solution.module';
 import { TasksModule } from '../tasks/tasks.module';
 import { SectionsModule } from '../sections/sections.module';
 import { SubjectsModule } from '../subjects/subjects.module';
+import { MinioModule } from '../minio/minio.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SubjectsModule } from '../subjects/subjects.module';
     TasksModule,
     SectionsModule,
     SubjectsModule,
+    MinioModule,
   ],
   controllers: [AppController],
   providers: [AppService],

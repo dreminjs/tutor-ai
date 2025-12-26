@@ -17,6 +17,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@fastify/multipart": "^9.3.0",
     "@fastify/static": "^8.3.0",
     "@nestjs/platform-fastify": "^11.1.10",
     "@tailwindcss/postcss": "^4.1.18",
@@ -24,6 +25,6 @@
     "react-markdown": "^10.1.0",
     "react-router": "^7.10.1",
     "tailwindcss": "^4.1.18",
-    "zod": "^3.23.8"
+    "zod": "3.25.76"
   }
 }

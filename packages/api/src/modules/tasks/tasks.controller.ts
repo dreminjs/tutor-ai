@@ -13,11 +13,8 @@ import { createSolutionSchema } from '../solution/dto/create.dto';
 import { SolutionService } from '../solution/solution.service';
 import { CreateTaskDto } from './dto/create.dto';
 import { TasksService } from './tasks.service';
-import type { TCreateSolutionDto } from '../solution/dto/create.dto';
-import type {
-  IPaginationQueryParameters,
-  IWithPagination,
-} from '@tutor-ai/shared-types';
+import { CreateSolutionDto } from '../solution/dto/create.dto';
+import type { IWithPagination, TPaginationQuery } from '@tutor-ai/shared-types';
 
 @Controller('tasks')
 export class TasksController {
@@ -28,7 +25,7 @@ export class TasksController {
 
   @Get()
   public async findMany(
-    @Query() query: IPaginationQueryParameters,
+    @Query() query: TPaginationQuery,
   ): Promise<IWithPagination<Task>> {
     const countQuery = this.tasksService.count();
 
@@ -42,14 +39,26 @@ export class TasksController {
     };
   }
 
+  @Get(':id')
+  public async findOne(@Param('id') id: string): Promise<Task | null> {
+    return await this.tasksService.findOne({ where: { id } });
+  }
+
   @Post()
   public async createOne(@Body() dto: CreateTaskDto): Promise<Task> {
     return await this.tasksService.create({
       data: {
         content: dto.content,
+        title: dto.title,
+
         section: {
           connect: {
             id: dto.sectionId,
+          },
+        },
+        subject: {
+          connect: {
+            id: dto.subjectId,
           },
         },
       },
@@ -58,16 +67,14 @@ export class TasksController {
 
   @UsePipes(new ZodValidationPipe(createSolutionSchema))
   @Post(':id/solution')
-  public async createOneSolution(
-    @Body() dto: TCreateSolutionDto,
-    @Param('id') id: string,
-  ) {
+  public async createOneSolution(@Body() dto: CreateSolutionDto) {
     return await this.solutionService.createOne({
       data: {
-        ...dto,
+        content: dto.content,
+        index: dto.index,
         task: {
           connect: {
-            id,
+            id: dto.taskId,
           },
         },
       },

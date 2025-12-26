@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { IWithPagination } from '@tutor-ai/shared-types';
 import { SectionsService } from './sections.service';
 import { Section } from '@prisma/client';
 import { CreateSectionDto } from './dto/create.dto';
 import { FindManySectionsQuery } from './dto/find.dto';
-import { IWithPagination } from '@tutor-ai/shared-types';
 
 @Controller('sections')
 export class SectionsController {

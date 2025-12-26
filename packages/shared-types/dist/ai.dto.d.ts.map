@@ -1,1 +1,1 @@
-{"version":3,"file":"ai.dto.d.ts","sourceRoot":"","sources":["../src/ai.dto.ts"],"names":[],"mappings":"AAAA,OAAO,CAAC,MAAM,KAAK,CAAC;AAEpB,eAAO,MAAM,uBAAuB;;;;;;EAIlC,CAAC"}
+{"version":3,"file":"ai.dto.d.ts","sourceRoot":"","sources":["../src/ai.dto.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,KAAK,CAAC;AAEzB,eAAO,MAAM,2BAA2B;;;;;;EAItC,CAAC"}

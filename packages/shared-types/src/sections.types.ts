@@ -9,3 +9,5 @@ export interface ISection {
 export const sectionsQuerySchema = paginationQuerySchema.extend({
   subjectId: z.string(),
 });
+
+export type FindManySectionsQuery = z.infer<typeof sectionsQuerySchema>;

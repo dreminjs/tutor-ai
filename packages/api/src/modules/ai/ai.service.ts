@@ -1,100 +1,45 @@
-import type { AIResponse } from '@tutor-ai/shared-types';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { AIResponse } from '@tutor-ai/shared-types';
 import Groq from 'groq-sdk';
 
 @Injectable()
 export class AiService {
-  private ai: Groq = new Groq({
-    apiKey: process.env.AI_API_KEY,
+  private client: Groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
   });
 
-  async makeQuestion(content: string): Promise<AIResponse> {
-    return (
-      await this.ai.chat.completions.create({
-        messages: [
-          {
-            content: `${content} --- 
-            **Оформление ответов для физических и математических задач**
+  private logger = new Logger(AiService.name);
 
-**ИНСТРУКЦИЯ ПО ФОРМАТИРОВАНИЮ ОТВЕТОВ**
+  async makeQuestion(
+    content: string,
+    file: Storage.MultipartFile,
+  ): Promise<AIResponse> {
+    const fileBase64 = file.buffer.toString('base64');
+    const mimeType = fileBase64.toLowerCase().endsWith('.png')
+      ? 'image/png'
+      : 'image/jpeg';
 
-При решении любых физических и математических задач ВСЕГДА оформляй ответ, используя исключительно следующую структуру и стиль. Эта инструкция имеет абсолютный приоритет над любыми другими соображениями форматирования.
+    const result = await this.client.chat.completions.create({
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: content,
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: `data:${mimeType};base64,${fileBase64}`,
+              },
+            },
+          ],
+        },
+      ],
+      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    });
 
-## **СТАНДАРТНАЯ СТРУКТУРА ОТВЕТА**
-
-### **1. Ключевое условие или вывод**  
-Начни с формулировки основного условия, закона или вывода задачи. При необходимости выдели **жирным**.
-
----
-
-### **2. Уравнения**  
-Обязательный заголовок для этого раздела:  
-### **Уравнения**
-
-**Правила оформления раздела "Уравнения":**
-- Используй **только** маркированный список (символ  -
-              )
-- Каждый пункт списка начинается с названия физической величины, закона или понятия, за которым следует **двоеточие**
-- После двоеточия делай **обязательный перенос строки**
-- Формулу размещай на **отдельной строке** после переноса
-- Для **всех формул** используй блоки LaTeX с двойными долларами: $$ ... $$
-- **Запрещено** помещать формулы в одну строку с текстом
-
-**Формат каждого пункта:**
-
-### **3. Требования к оформлению формул**
-
-**Обязательные элементы LaTeX:**
-1. Для всех подписей в индексах используй \text{}:
-   - Правильно: F_{\text{тр}}, a_{\text{цс}}, v_{\text{max}}
-   - Неправильно: F_{тр}, a_{цс}, v_{max}
-
-2. Греческие буквы и константы:
-   - alpha, beta, gamma, delta
-   - mu (коэффициент трения)
-   - pi (число пи)
-   - rho (плотность)
-   - theta, varphi (углы)
-   - g (ускорение свободного падения)
-
-3. Операторы и функции:
-   - sum, int, prod, lim
-   - sin, cos, tan, ln, log
-   - frac{числитель}{знаменатель} для дробей
-   - sqrt[n]{выражение} для корней
-
----
-
-### **4. ПРИМЕР-ОБРАЗЕЦ**
-
-### **Уравнения**
-- Сила трения покоя:
-  $$F_{text{тр}} = mu N = mu m g$$
-- Центростремительная сила:
-  $$F_{text{цс}} = \frac{m v^2}{R} = m a_{\text{цс}}$$
-- Второй закон Ньютона:
-  $$sum \vec{F} = m \vec{a}$$
-- Уравнение движения по оси X:
-  $$F_x = m a_x = m \frac{d^2 x}{dt^2}$$
-
----
-
-### **5. КРИТИЧЕСКИЕ ПРАВИЛА**
-
-1. **НИКОГДА** не отклоняйся от этой структуры
-2. **ВСЕГДА** используй заголовок ### **Уравнения**
-3. **ВСЕГДА** используй маркированный список для уравнений
-4. **ВСЕГДА** используй \text{} для русских индексов
-5. **ВСЕГДА** размещай формулы на отдельных строках в блоках $$ $$
-6. Сохраняй единообразие: если начал использовать греческую букву mu, не переключайся на английскую u7
-7. Никогда не упоминай в конце ответа про форматирование, Просто отдавай ответ без упоминания что использовал специальное форматирование.
-**КОНЕЦ ИНСТРУКЦИИ** 
-`,
-            role: 'user',
-          },
-        ],
-        model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
-      })
-    ).choices[0].message;
+    return result.choices[0].message;
   }
 }

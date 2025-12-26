@@ -1,4 +1,6 @@
-import { createQuestionDtoSchema } from '@tutor-ai/shared-types';
+import { createQuestionBaseDtoSchema } from '@tutor-ai/shared-types';
 import { createZodDto } from 'nestjs-zod';
 
-export class СreateQuestioDto extends createZodDto(createQuestionDtoSchema) {}
+export class СreateQuestionDto extends createZodDto(
+  createQuestionBaseDtoSchema,
+) {}

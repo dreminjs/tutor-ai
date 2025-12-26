@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
-import type { TPaginationQuery, IWithPagination } from '@tutor-ai/shared-types';
 import { Subject } from '@prisma/client';
 import { CreateSubjectDto } from './dto/create.dto';
+import { FindManyQuery } from 'src/interfaces/query.interfaces';
+import type { IWithPagination } from '@tutor-ai/shared-types';
 
 @Controller('subjects')
 export class SubjectsController {
@@ -10,7 +11,7 @@ export class SubjectsController {
 
   @Get()
   public async findMany(
-    @Query() query: IPaginationQueryParameters,
+    @Query() query: FindManyQuery,
   ): Promise<IWithPagination<Subject>> {
     const countQuery = this.subjectsService.count();
 

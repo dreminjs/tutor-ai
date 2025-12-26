@@ -10,14 +10,17 @@ model Task {
   id        String     @id @default(uuid())
   content   String
   solutions Solution[]
-
-  section   Section @relation(fields: [sectionId], references: [id])
+  title     String
+  section   Section    @relation(fields: [sectionId], references: [id])
   sectionId String
+  subjectId String
+  subject   Subject    @relation(fields: [subjectId], references: [id])
 }
 
 model Solution {
   id      String @id @default(uuid())
   content String
+  index   Int
   task    Task   @relation(fields: [taskId], references: [id])
   taskId  String
 }
@@ -34,4 +37,5 @@ model Subject {
   id       String    @id @default(uuid())
   title    String    @unique
   sections Section[]
+  tasks    Task[]
 }

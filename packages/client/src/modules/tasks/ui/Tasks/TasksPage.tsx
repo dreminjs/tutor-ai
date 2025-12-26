@@ -1,13 +1,9 @@
-
-
+import { Tasks } from "./Tasks";
 
 export const TasksPage = () => {
-
-
-
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  return (
+    <div>
+      <Tasks />
+    </div>
+  );
+};

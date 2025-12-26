@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import { Subject, Prisma } from '@prisma/client';
-import { TPaginationQuery } from '@tutor-ai/shared-types';
+import { PrismaService } from '../prisma/prisma.service';
+import type { TPaginationQuery } from '@tutor-ai/shared-types';
 
 @Injectable()
 export class SubjectsService {
@@ -25,4 +25,4 @@ export class SubjectsService {
   async create(dto: Prisma.SubjectCreateArgs): Promise<Subject> {
     return await this.prisma.subject.create(dto);
   }
-};
+}
