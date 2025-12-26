@@ -1,9 +1,9 @@
 import { Solution } from "./Solution";
 import { Explanation } from "./Explanation/Explantion";
 import { TaskProvider } from "./TasksProvider";
-import {  TaskContent } from "./TaskContent";
+import { TaskContent } from "./TaskContent";
 import { useState } from "react";
-import { AreaScreenshotQuestion } from "./SelectionOverlay";
+import { AreaScreenshotQuestion } from "./AreaScreenshotQuestion";
 import { useLocation } from "react-router";
 import { useGetTask } from "../../api/queries";
 import { QuestionModal } from "./QuestionModal/QuestionModal";
@@ -13,11 +13,14 @@ export const TaskPage = () => {
   const { pathname } = useLocation();
 
   const { data } = useGetTask(pathname.split("/")[6]);
-
+  
   return (
     <TaskProvider>
       <div>
-        <TaskContent content={data?.content || ""} />
+        <TaskContent
+          schemaUrl={data?.schemaName || ""}
+          content={data?.content || ""}
+        />
         <button onClick={() => setActive(true)}>
           Включить режим выделения
         </button>

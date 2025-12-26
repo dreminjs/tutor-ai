@@ -7,9 +7,8 @@ interface IProps {
 
 export const SolutionBlock: FC<IProps> = ({ content }) => {
   return (
-    <div className="hover:border-gray-50 w-fit relative">
+    <li className="hover:border-gray-50 w-fit relative">
       <MarkdownBlock className="max-w-[750px]" content={content} />
-    
-    </div>
+    </li>
   );
 };

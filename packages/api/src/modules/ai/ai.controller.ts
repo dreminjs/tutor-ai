@@ -31,8 +31,10 @@ export class AiController {
   @Post('make-question')
   public async makeQuestion(
     @Body() dto: СreateQuestionDto,
-    @Files() files: Record<string, Storage.MultipartFile[]>,
+    @Files() files?: Record<string, Storage.MultipartFile[]>,
   ): Promise<AIResponse> {
-    return await this.aiService.makeQuestion(dto.content, files.file[0]);
+    const file = files?.file?.[0] ?? null;
+
+    return await this.aiService.makeQuestion(dto.content, file);
   }
 }

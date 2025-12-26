@@ -1,22 +1,23 @@
 import { useState } from "react";
+import { useSetAtom } from "jotai";
+import { currentQuestionScreenShotAtom } from "../../model/store/question.store";
 import html2canvas from "html2canvas";
-import { useMakeQuestion } from "../../api/queries";
+import { useMakeReadyQuestions } from "../../api/queries";
 
 type Point = { x: number; y: number };
 type Rect = { x: number; y: number; width: number; height: number };
 
 export function AreaScreenshotQuestion({
-  content,
   onFinish,
 }: {
   content: string;
   onFinish?: () => void;
 }) {
-  const mutation = useMakeQuestion();
-
   const [start, setStart] = useState<Point | null>(null);
   const [current, setCurrent] = useState<Point | null>(null);
 
+  const currentQuestionScreenShot = useSetAtom(currentQuestionScreenShotAtom);
+  const { mutate } = useMakeReadyQuestions();
   const rect: Rect | null =
     start && current
       ? {
@@ -73,11 +74,8 @@ export function AreaScreenshotQuestion({
 
     try {
       const file = await capture(rect);
-
-      mutation.mutate({
-        content,
-        file,
-      });
+      mutate(file);
+      currentQuestionScreenShot(file);
     } finally {
       setStart(null);
       setCurrent(null);

@@ -12,29 +12,37 @@ export class AiService {
 
   async makeQuestion(
     content: string,
-    file: Storage.MultipartFile,
+    file: Storage.MultipartFile | null,
   ): Promise<AIResponse> {
-    const fileBase64 = file.buffer.toString('base64');
-    const mimeType = fileBase64.toLowerCase().endsWith('.png')
+    const fileBase64 = file?.buffer.toString('base64');
+    const mimeType = fileBase64?.toLowerCase().endsWith('.png')
       ? 'image/png'
       : 'image/jpeg';
+
+    const contentParts: Array<
+      | { type: 'text'; text: string }
+      | { type: 'image_url'; image_url: { url: string } }
+    > = [
+      {
+        type: 'text',
+        text: content,
+      },
+    ];
+
+    if (file && fileBase64) {
+      contentParts.push({
+        type: 'image_url',
+        image_url: {
+          url: `data:${mimeType};base64,${fileBase64}`,
+        },
+      });
+    }
 
     const result = await this.client.chat.completions.create({
       messages: [
         {
           role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: content,
-            },
-            {
-              type: 'image_url',
-              image_url: {
-                url: `data:${mimeType};base64,${fileBase64}`,
-              },
-            },
-          ],
+          content: contentParts,
         },
       ],
       model: 'meta-llama/llama-4-scout-17b-16e-instruct',

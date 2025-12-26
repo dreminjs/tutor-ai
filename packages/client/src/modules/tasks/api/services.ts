@@ -1,12 +1,16 @@
 import { instance } from "../../../shared/api/api.instance";
 import { API_KEYS, SERVICE_KEYS } from "../../../shared";
-import type { IAPIResponse, IWithPagination } from "@tutor-ai/shared-types";
+import type {
+  AIResponse,
+  IAPIResponse,
+  IWithPagination,
+} from "@tutor-ai/shared-types";
 import type { Solution, Task } from "@prisma/client";
 import type { TCreateQuestionClientDto } from "../model/interfaces/create-question.interface";
 
-export const makeQuestion = async (dto: TCreateQuestionClientDto) => {
-  console.log(dto.file);
-
+export const makeQuestion = async (
+  dto: TCreateQuestionClientDto
+): Promise<IAPIResponse<AIResponse>> => {
   const formData = new FormData();
 
   formData.append("content", dto.content);
@@ -45,5 +49,7 @@ export const findOne = async (taskId?: string): Promise<IAPIResponse<Task>> => {
 export const findManyTaskSolution = async (
   taskId?: string
 ): Promise<IAPIResponse<Solution[]>> => {
-  return (await instance.get(`${API_KEYS.tasks}/${taskId}/${SERVICE_KEYS.solution}`)).data
+  return (
+    await instance.get(`${API_KEYS.tasks}/${taskId}/${SERVICE_KEYS.solution}`)
+  ).data;
 };

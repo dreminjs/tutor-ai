@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Query,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Task } from '@prisma/client';
@@ -14,6 +15,10 @@ import { SolutionService } from '../solution/solution.service';
 import { CreateTaskDto } from './dto/create.dto';
 import { TasksService } from './tasks.service';
 import { CreateSolutionDto } from '../solution/dto/create.dto';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { Files } from 'src/decorators/file.decorator';
+import { MinioService } from '../minio/minio.service';
+import { MultipartInterceptor } from 'src/interceptors/multipart.interceptor';
 import type { IWithPagination, TPaginationQuery } from '@tutor-ai/shared-types';
 
 @Controller('tasks')
@@ -21,6 +26,7 @@ export class TasksController {
   constructor(
     private readonly tasksService: TasksService,
     private readonly solutionService: SolutionService,
+    private readonly minioService: MinioService,
   ) {}
 
   @Get()
@@ -44,13 +50,38 @@ export class TasksController {
     return await this.tasksService.findOne({ where: { id } });
   }
 
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        content: { type: 'string', description: 'Текст вопроса' },
+        title: { type: 'string', description: 'Заголовок вопроса' },
+        sectionId: { type: 'string', description: 'Section Id' },
+        subjectId: { type: 'string', description: 'Subject Id' },
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+      required: ['content', 'title', 'sectionId', 'subjectId', 'file'],
+    },
+  })
+  @UseInterceptors(
+    MultipartInterceptor({ fileType: 'jpeg', maxFileSize: 1000_000 }),
+  )
   @Post()
-  public async createOne(@Body() dto: CreateTaskDto): Promise<Task> {
+  public async createOne(
+    @Body() dto: CreateTaskDto,
+    @Files() files: Record<string, Storage.MultipartFile[]>,
+  ): Promise<Task> {
+    const fileName = await this.minioService.upload(files.file[0]);
+
     return await this.tasksService.create({
       data: {
         content: dto.content,
         title: dto.title,
-
+        schemaName: fileName,
         section: {
           connect: {
             id: dto.sectionId,

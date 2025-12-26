@@ -7,14 +7,15 @@ datasource db {
 }
 
 model Task {
-  id        String     @id @default(uuid())
-  content   String
-  solutions Solution[]
-  title     String
-  section   Section    @relation(fields: [sectionId], references: [id])
-  sectionId String
-  subjectId String
-  subject   Subject    @relation(fields: [subjectId], references: [id])
+  id         String     @id @default(uuid())
+  content    String
+  solutions  Solution[]
+  title      String
+  section    Section    @relation(fields: [sectionId], references: [id])
+  sectionId  String
+  subjectId  String
+  subject    Subject    @relation(fields: [subjectId], references: [id])
+  schemaName String
 }
 
 model Solution {

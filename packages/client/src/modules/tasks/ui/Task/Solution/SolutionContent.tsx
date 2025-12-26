@@ -14,12 +14,12 @@ export const SolutionContent: FC<IProps> = ({ isOpen }) => {
   const { data } = useGetTaskSolution(pathname.split("/")[6]);
 
   return (
-    <div className={clsx(isOpen ? "block" : "hidden")}>
+    <ul className={clsx(isOpen ? "block" : "hidden")}>
       {data
         ?.sort((a, b) => a.index - b.index)
         .map((el) => (
-          <SolutionBlock content={el.content} />
+          <SolutionBlock key={el.id} content={el.content} />
         ))}
-    </div>
+    </ul>
   );
 };
