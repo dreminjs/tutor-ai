@@ -8,6 +8,10 @@ import { TasksModule } from '../tasks/tasks.module';
 import { SectionsModule } from '../sections/sections.module';
 import { SubjectsModule } from '../subjects/subjects.module';
 import { MinioModule } from '../minio/minio.module';
+import { TokenModule } from '../token/token.module';
+import { RedisModule } from '../redis/redis.module';
+import { AuthModule } from '../auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -18,6 +22,12 @@ import { MinioModule } from '../minio/minio.module';
     SectionsModule,
     SubjectsModule,
     MinioModule,
+    TokenModule,
+    RedisModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

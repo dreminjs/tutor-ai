@@ -1,10 +1,10 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
-import { СreateQuestionDto } from './dto/create-question.dto';
-import { AiService } from './ai.service';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MultipartInterceptor } from 'src/interceptors/multipart.interceptor';
 import { Files } from 'src/decorators/file.decorator';
 import { AIResponse } from '@tutor-ai/shared-types';
+import { AiService } from './ai.service';
+import { СreateQuestionDto } from './dto/create-question.dto';
 
 @Controller('ai')
 export class AiController {

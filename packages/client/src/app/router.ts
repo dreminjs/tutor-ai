@@ -6,6 +6,8 @@ import { SubjectsPage } from "@/modules/subjects";
 import { SectionsPage } from "@/modules/sections/ui/SectionsPage";
 import { Home } from "@/modules/home";
 import { TasksPage } from "@/modules/tasks/ui/Tasks/TasksPage";
+import { LoginPage, RegisterPage } from "@/modules/auth/";
+import { ProtectedRoutes } from "@/layouts/ProtectedRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -16,28 +18,40 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+      {
+        path: "register",
+        Component: RegisterPage,
+      },
+      {
+        path: "login",
+        Component: LoginPage,
+      },
+      {
+        Component: ProtectedRoutes,
+        children: [
+          {
+            path: "subjects",
+            Component: SubjectsPage,
+          },
 
-      {
-        path: "subjects",
-        Component: SubjectsPage,
-      },
+          {
+            path: "subjects/:subjectId/sections",
+            Component: SectionsPage,
+          },
 
-      {
-        path: "subjects/:subjectId/sections",
-        Component: SectionsPage,
-      },
-
-      {
-        path: "subjects/:subjectId/sections/:sectionId/tasks",
-        Component: TasksPage,
-      },
-      {
-        path: "subjects/:subjectId/sections/:sectionId/tasks/:taskId",
-        Component: TaskPage,
-      },
-      {
-        path: "task",
-        Component: TaskPage,
+          {
+            path: "subjects/:subjectId/sections/:sectionId/tasks",
+            Component: TasksPage,
+          },
+          {
+            path: "subjects/:subjectId/sections/:sectionId/tasks/:taskId",
+            Component: TaskPage,
+          },
+          {
+            path: "task",
+            Component: TaskPage,
+          },
+        ],
       },
     ],
   },

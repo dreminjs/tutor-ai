@@ -7,10 +7,13 @@ interface IProps {
 
 export const SolutionPanel: FC<IProps> = ({ onToggleVisibilty, isOpen }) => {
   return (
-    <div>
-      <button onClick={onToggleVisibilty}>
+    <>
+      <button
+        className="border-2 p-2 rounded-lg mb-2 block"
+        onClick={onToggleVisibilty}
+      >
         {!isOpen ? "Показать решение" : "Скрыть решение"}
       </button>
-    </div>
+    </>
   );
 };

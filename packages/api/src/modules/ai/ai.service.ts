@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AIResponse } from '@tutor-ai/shared-types';
 import Groq from 'groq-sdk';
+import { generatePrompt } from './helpers/generate-promt.helper';
 
 @Injectable()
 export class AiService {
@@ -14,6 +15,8 @@ export class AiService {
     content: string,
     file: Storage.MultipartFile | null,
   ): Promise<AIResponse> {
+    this.logger.log(generatePrompt(content));
+
     const fileBase64 = file?.buffer.toString('base64');
     const mimeType = fileBase64?.toLowerCase().endsWith('.png')
       ? 'image/png'
@@ -25,7 +28,7 @@ export class AiService {
     > = [
       {
         type: 'text',
-        text: content,
+        text: generatePrompt(content),
       },
     ];
 

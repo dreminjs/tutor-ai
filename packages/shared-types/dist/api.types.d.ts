@@ -2,6 +2,9 @@ import { z } from "zod";
 export interface IAPIResponse<T> {
     data: T;
 }
+export interface IStandartResponse {
+    message: string;
+}
 export interface IWithPagination<T> {
     total: number;
     items: T[];

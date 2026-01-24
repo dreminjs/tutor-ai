@@ -1,7 +1,7 @@
 import { PAGE_KEYS } from "@/shared";
-import type { Subject } from "@prisma/client";
-import type { FC } from "react";
 import { Link } from "react-router";
+import type { FC } from "react";
+import type { Subject } from "@prisma/client";
 
 type TProps = Subject;
 

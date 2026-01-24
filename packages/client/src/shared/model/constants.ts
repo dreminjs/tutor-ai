@@ -5,14 +5,23 @@ export const API_KEYS = {
   tasks: "tasks",
   sections: "sections",
   subjects: "subjects",
+  auth: "auth",
+  users: "users",
 } as const;
 
 export const SERVICE_KEYS = {
   "make-question": "make-question",
-  solution: "solution" 
+  solution: "solution",
+  login: "login",
+  register: "register",
+  logout: "logout",
+  me: "me",
 } as const;
 
 export const PAGE_KEYS = {
+  home: "/",
   sections: "sections",
-  tasks: "tasks"
+  tasks: "tasks",
+  register: "register",
+  login: "login",
 };

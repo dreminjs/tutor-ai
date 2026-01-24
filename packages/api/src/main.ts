@@ -7,7 +7,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { ZodValidationPipe } from 'nestjs-zod';
 import multipart from '@fastify/multipart';
-
+import fastifyCookie from '@fastify/cookie';
 import type { NestFastifyApplication } from '@nestjs/platform-fastify';
 
 async function bootstrap() {
@@ -21,6 +21,8 @@ async function bootstrap() {
   await app.register(multipart, {
     limits: { fileSize: 5 * 1024 * 1024 },
   });
+
+  await app.register(fastifyCookie);
 
   app.useGlobalPipes(new ZodValidationPipe());
 

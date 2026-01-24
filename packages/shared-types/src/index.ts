@@ -7,3 +7,5 @@ export * from "./api.types";
 export * from "./sections.types";
 
 export * from "./sections.types"
+
+export * from "./auth.types"
