@@ -25,7 +25,6 @@ export const AuthFormField: FC<IProps> = ({
       <input
         className="block outline-none border-b-2"
         {...register(name)}
-        type="email"
         id={name}
         placeholder={placeholder}
       />

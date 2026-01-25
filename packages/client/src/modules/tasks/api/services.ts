@@ -4,12 +4,13 @@ import type {
   AIResponse,
   IAPIResponse,
   IWithPagination,
+  TSaveTaskDto,
 } from "@tutor-ai/shared-types";
 import type { Solution, Task } from "@prisma/client";
 import type { TCreateQuestionClientDto } from "../model/interfaces/create-question.interface";
 
 export const makeQuestion = async (
-  dto: TCreateQuestionClientDto
+  dto: TCreateQuestionClientDto,
 ): Promise<IAPIResponse<AIResponse>> => {
   const formData = new FormData();
 
@@ -27,13 +28,13 @@ export const makeQuestion = async (
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     )
   ).data;
 };
 
 export const findMany = async (
-  sectionId?: string
+  sectionId?: string,
 ): Promise<IAPIResponse<IWithPagination<Task>>> => {
   const query = new URLSearchParams();
 
@@ -47,9 +48,15 @@ export const findOne = async (taskId?: string): Promise<IAPIResponse<Task>> => {
 };
 
 export const findManyTaskSolution = async (
-  taskId?: string
+  taskId?: string,
 ): Promise<IAPIResponse<Solution[]>> => {
   return (
     await instance.get(`${API_KEYS.tasks}/${taskId}/${SERVICE_KEYS.solution}`)
   ).data;
 };
+
+// export const saveTaskToSession = async (
+//   dto: TSaveTaskDto,
+// ): Promise<IAPIResponse<void>> => {
+//   return (await instance.post(`${API_KEYS.tasks}/save`, dto)).data;
+// };

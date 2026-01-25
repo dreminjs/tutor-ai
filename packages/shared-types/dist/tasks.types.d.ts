@@ -13,4 +13,12 @@ export declare const taskQuerySchema: z.ZodObject<{
     skip?: number | undefined;
     take?: number | undefined;
 }>;
+export declare const saveTaskSchema: z.ZodObject<{
+    content: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    content: string;
+}, {
+    content: string;
+}>;
+export type TSaveTaskDto = z.infer<typeof saveTaskSchema>;
 //# sourceMappingURL=tasks.types.d.ts.map

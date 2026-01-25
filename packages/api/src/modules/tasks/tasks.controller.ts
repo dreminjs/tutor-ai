@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
@@ -19,8 +20,14 @@ import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { Files } from 'src/decorators/file.decorator';
 import { MinioService } from '../minio/minio.service';
 import { MultipartInterceptor } from 'src/interceptors/multipart.interceptor';
-import type { IWithPagination, TPaginationQuery } from '@tutor-ai/shared-types';
+import { CurrentUser } from '../user/user.decorator';
+import { AccessTokenGuard } from '../token/guards/access-token.guard';
+import {
+  type IWithPagination,
+  type TPaginationQuery,
+} from '@tutor-ai/shared-types';
 
+@UseGuards(AccessTokenGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(
@@ -46,8 +53,15 @@ export class TasksController {
   }
 
   @Get(':id')
-  public async findOne(@Param('id') id: string): Promise<Task | null> {
-    return await this.tasksService.findOne({ where: { id } });
+  public async findOne(
+    @CurrentUser('id') userId: string,
+    @Param('id') id: string,
+  ): Promise<Task | null> {
+    const task = await this.tasksService.findOne({ where: { id } });
+    if (task) {
+      await this.tasksService.saveTaskToSession(userId, task.content);
+    }
+    return task;
   }
 
   @ApiConsumes('multipart/form-data')

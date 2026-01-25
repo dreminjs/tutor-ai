@@ -6,7 +6,10 @@ import { AuthPageLayout } from "./AuthPageLayout";
 export const LoginPage = () => {
   const { mutate } = useLogin();
 
-  const handleSubmit = (dto: AuthDto) => mutate(dto);
+  const handleSubmit = (dto: AuthDto) => {
+    console.log(dto);
+    mutate(dto);
+  };
 
   return (
     <AuthPageLayout>

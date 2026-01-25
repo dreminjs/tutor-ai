@@ -8,6 +8,7 @@ export const login = async (dto: AuthDto): Promise<IStandartResponse> => {
 };
 
 export const register = async (dto: AuthDto): Promise<IStandartResponse> => {
+  console.log(dto);
   return (await instance.post(`${API_KEYS.auth}/${SERVICE_KEYS.register}`, dto))
     .data;
 };

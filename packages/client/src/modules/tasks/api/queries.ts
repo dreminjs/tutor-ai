@@ -17,22 +17,21 @@ import { API_KEYS, SERVICE_KEYS } from "@/shared";
 import { useEffect } from "react";
 import { generateReadyQuestionPromt } from "../model/helpers/generate-ready-question-promt";
 import type { TCreateQuestionClientDto } from "../model/interfaces/create-question.interface";
-import { addContenxt } from "../model/helpers/addContext";
 
 export const useMakeQuestion = () => {
   const setCurrentExplanation = useSetAtom(currentExplanationAtom, {
     store: questionStore,
   });
+
   const closeQuestionModal = useSetAtom(closeQuestionModalAtom, {
     store: questionStore,
   });
-  const currentTask = useAtomValue(currentTaskAtom, { store: questionStore });
 
   return useMutation({
     mutationFn: (dto: TCreateQuestionClientDto) =>
       makeQuestion({
         file: dto.file || undefined,
-        content: addContenxt(dto.content, currentTask!),
+        content: dto.content,
       }),
     onSuccess: (data) => {
       closeQuestionModal();
@@ -88,6 +87,7 @@ export const useGetTask = (taskId?: string) => {
       setCurrentTask(response.data.data.content);
     }
   }, [response.data, setCurrentTask]);
+
   return {
     ...response,
     data: response.data?.data,

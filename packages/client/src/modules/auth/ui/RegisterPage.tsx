@@ -6,7 +6,9 @@ import { AuthPageLayout } from "./AuthPageLayout";
 export const RegisterPage = () => {
   const { mutate } = useRegister();
 
-  const handleSubmit = (dto: AuthDto) => mutate(dto);
+  const handleSubmit = (dto: AuthDto) => {
+    mutate(dto);
+  };
 
   return (
     <AuthPageLayout>

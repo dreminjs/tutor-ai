@@ -9,6 +9,14 @@ export const createTaskSchema = z.object({
   subjectId: z.string(),
 });
 
+export const saveTaskSchema = z.object({
+  content: z.string(),
+});
+
+export type TSaveTaskDto = z.infer<typeof saveTaskSchema>;
+
 export type TCreateTaskDto = z.infer<typeof createTaskSchema>;
 
 export class CreateTaskDto extends createZodDto(createTaskSchema) {}
+
+export class SaveTaskDto extends createZodDto(saveTaskSchema) {}

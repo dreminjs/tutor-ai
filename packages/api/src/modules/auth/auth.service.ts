@@ -53,6 +53,10 @@ export class AuthService {
     );
   }
 
+  async logout(userId: string): Promise<void> {
+    await this.tokenService.deleteRefreshToken({ userId });
+  }
+
   async validateUser(email: string, password: string): Promise<void> {
     // TODO: Validate user credentials
   }
